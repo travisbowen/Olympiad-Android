@@ -1,0 +1,19 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=73:9F:45:DE:99:B6:E9:11:4F:A8:95:D4:BA:ED:06:90:7E:A2:FA:EF%3Bupscaleapps.olympiad
+
+    You can also add your credentials to an existing key, using this line:
+    73:9F:45:DE:99:B6:E9:11:4F:A8:95:D4:BA:ED:06:90:7E:A2:FA:EF;upscaleapps.olympiad
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDZeHz0IMJt1P4DjRNKRFyDqn5gmbfHQ-M</string>
+</resources>

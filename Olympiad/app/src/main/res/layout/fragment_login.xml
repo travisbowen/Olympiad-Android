@@ -1,0 +1,56 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="upscaleapps.olympiad.Login.LoginActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- TODO: Update blank fragment layout -->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="180dp"
+            android:background="#ffffff"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/userEmailET"
+            android:hint="Email" />
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="40dp"
+            android:background="#ffffff"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/userPassET"
+            android:hint="Password" />
+
+
+        <Button
+            android:text="Login"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="60dp"
+            android:layout_gravity="center"
+            android:background="#ffffff"
+            android:id="@+id/loginButton" />
+
+
+        <Button
+            android:text="Sign Up"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center"
+            android:background="#ffffff"
+            android:id="@+id/signUpButton" />
+
+    </LinearLayout>
+
+</FrameLayout>

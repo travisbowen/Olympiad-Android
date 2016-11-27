@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "846656270956",
+    "firebase_url": "https://olympiad-5fdfd.firebaseio.com",
+    "project_id": "olympiad-5fdfd",
+    "storage_bucket": "olympiad-5fdfd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846656270956:android:035f86e75df100a3",
+        "android_client_info": {
+          "package_name": "upscaleapps.olympiad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "846656270956-lmsqm86d4ksjoq0c9br638t4o19ne46g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "upscaleapps.olympiad",
+            "certificate_hash": "739F45DE99B6E9114FA895D4BAED06907EA2FAEF"
+          }
+        },
+        {
+          "client_id": "846656270956-ldsf7sgi45fatisri2vvukam6qmb083j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNmF_0v4lu1y4r5lau1wIWO9SiQyXzaBg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "846656270956-6i90djscspdu0let039l6fgoavg5fi80.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.UpscaleApps.Olympiad-Swift"
+              }
+            },
+            {
+              "client_id": "846656270956-ldsf7sgi45fatisri2vvukam6qmb083j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
