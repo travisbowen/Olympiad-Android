@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "846656270956-l6q3otm76klkgodsm9khq5au9jd12msm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "upscaleapps.olympiad",
+            "certificate_hash": "EA523BF8E8DD025A07B636D50D41C844FA4E2DC6"
+          }
+        },
+        {
           "client_id": "846656270956-lmsqm86d4ksjoq0c9br638t4o19ne46g.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

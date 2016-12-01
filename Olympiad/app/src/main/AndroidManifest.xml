@@ -43,7 +43,9 @@
         </activity>
 
         <activity android:name=".TabBar.TabBarActivity" />
-        <activity android:name=".Register.RegisterActivity" />
+        <activity android:name=".Register.RegisterActivityA" />
+        <activity android:name=".Register.RegisterActivityB" />
+
 
     </application>
 

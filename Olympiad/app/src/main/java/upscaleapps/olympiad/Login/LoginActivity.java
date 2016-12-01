@@ -8,13 +8,30 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+import upscaleapps.olympiad.*;
+import upscaleapps.olympiad.Login.LoginActivity;
+import upscaleapps.olympiad.Register.RegisterActivityA;
 import upscaleapps.olympiad.R;
-import upscaleapps.olympiad.Register.RegisterActivity;
 import upscaleapps.olympiad.TabBar.TabBarActivity;
 
 
@@ -54,15 +71,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         };
-    }
 
+        // Try Login from Saved Data
+        if (readData()!=null){
+        JSONObject u = readData();
+            try {
+                login(u.getString("email"), u.getString("password"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
 
             case R.id.loginButton:
-                login();
+                login(userEmailET.getText().toString(), userPassET.getText().toString());
                 break;
 
             case R.id.signUpButton:
@@ -71,12 +97,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-
     //Attach the listener to FirebaseAuth instance
     @Override
     public void onStart() {
         super.onStart();
-//        mAuth.addAuthStateListener(mAuthListener);
+        mAuth.addAuthStateListener(mAuthListener);
     }
 
 
@@ -85,48 +110,124 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onStop() {
         super.onStop();
         if (mAuthListener != null) {
-//            mAuth.removeAuthStateListener(mAuthListener);
+            mAuth.removeAuthStateListener(mAuthListener);
         }
     }
 
-
     //Login to Firebase
-    public void login(){
-        if(userEmailET.getText().toString() != "" && userPassET.getText().toString() != "" &&
-                userEmailET.getText().toString().contains("@") && userEmailET.getText().toString().contains(".com")){
+    public void login(final String email, final String pass){
+        if(email != "" && pass != "" && email.contains("@") && email.contains(".com")){
 
-            mAuth.signInWithEmailAndPassword(userEmailET.getText().toString(), userPassET.getText().toString())
+            mAuth.signInWithEmailAndPassword(email, pass)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     Log.d("SignIn Success", "signInWithEmail:onComplete:" + task.isSuccessful());
-
-                    // If sign in fails, display a message to the user. If sign in succeeds
-                    // the auth state listener will be notified and logic to handle the
-                    // signed in user can be handled in the listener.
-
-                    //Start tab bar activity
-                    startTab();
-
                     if (!task.isSuccessful()) {
                         Log.w("SignIn Error", "signInWithEmail:failed", task.getException());
+                    } else {
+                        // Save User Locally
+                        saveData(email, pass);
+
+                        //Start tab bar activity
+                        startTab();
                     }
                 }
             });
         }
     }
 
-
     //Sign Up to Firebase
     public void signUp(){
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
-    }
+        mAuth.createUserWithEmailAndPassword(userEmailET.getText().toString(), userPassET.getText().toString())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d("SignUp: \n", "createUserWithEmail:onComplete:" + task.isSuccessful());
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+        mAuth.signInWithEmailAndPassword(userEmailET.getText().toString(), userPassET.getText().toString())
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("SignIn Error", "signInWithEmail:failed", task.getException());
+                        } else {
+                            // Save User Locally
+                            saveData(userEmailET.getText().toString(), userPassET.getText().toString());
 
+                            FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid())
+                                    .child("email").setValue(userEmailET.getText().toString());
+
+                            Intent intent = new Intent(LoginActivity.this, RegisterActivityA.class);
+                            startActivity(intent);
+                        }
+                    }
+                });
+    }
 
     //Start Tab Bar Activity
     public void startTab(){
         Intent intent = new Intent(this, TabBarActivity.class);
         startActivity(intent);
+    }
+
+    // Save User Info To Local Storage
+    private Boolean saveData(String email, String pass){
+        JSONObject object = new JSONObject();
+        try {
+            object.put("email", email);
+            object.put("password", pass);
+            File external = getExternalFilesDir(null);
+            File file = new File(external, "user.txt");
+            FileOutputStream fos = new FileOutputStream(file);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);
+            osw.write(object.toString());
+            osw.flush();
+            osw.close();
+            return true;
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Get User Info From Local Storage
+    private JSONObject readData(){
+        String result = "";
+        File external = this.getExternalFilesDir(null);
+        File file = new File(external, "user.txt");
+        if (file.exists()) {
+            try {
+                FileInputStream fin = new FileInputStream(file);
+                InputStreamReader isr = new InputStreamReader(fin);
+                char[] data = new char[2048];
+                int size;
+                try {
+                    while ((size = isr.read(data)) > 0) {
+                        String readData = String.copyValueOf(data, 0, size);
+                        result += readData;
+                        data = new char[2048];
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            JSONObject object = null;
+            try {
+                object = new JSONObject(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return object;
+        } else {
+            return null;
+        }
     }
 }

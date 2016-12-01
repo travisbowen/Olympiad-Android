@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#cccccc">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/backBT"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nextBT"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#cccccc"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_gravity="center_horizontal"
+            android:background="#ffffff"
+            android:id="@+id/regIV"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_height="300dp"
+            android:layout_marginBottom="8dp" />
+
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:id="@+id/regReasonSP"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:layout_below="@+id/regIV"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:id="@+id/regTimeSP"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:layout_below="@+id/regReasonSP"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:id="@+id/regMotivationSP"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:layout_below="@+id/regTimeSP"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:id="@+id/regSkillSP"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:layout_below="@+id/regMotivationSP"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

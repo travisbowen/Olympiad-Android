@@ -1,13 +1,120 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="upscaleapps.olympiad.Profile.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        app:srcCompat="@drawable/cast_album_art_placeholder"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/darker_gray"
+        android:scaleType="centerCrop"
+        android:layout_height="320dp"
+        android:layout_marginBottom="10dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentStart="true"
+        android:id="@+id/labelName"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:background="@android:color/transparent"
+        android:paddingBottom="10dp" />
+
+    <EditText
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="G-A"
+        android:ems="10"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/labelGenderAge"
+        android:gravity="right|center_vertical"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:layout_width="100dp"
+        android:background="@android:color/transparent"
+        android:paddingBottom="10dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Location"
+        android:ems="10"
+        android:layout_below="@+id/labelName"
+        android:layout_alignParentStart="true"
+        android:id="@+id/labelLocation"
+        android:background="@android:color/transparent"
+        android:paddingBottom="10dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Skill"
+        android:ems="10"
+        android:id="@+id/labelSkill"
+        android:layout_below="@+id/labelLocation"
+        android:layout_alignParentStart="true"
+        android:background="@android:color/transparent"
+        android:paddingBottom="10dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Motivation"
+        android:ems="10"
+        android:layout_below="@+id/labelSkill"
+        android:layout_alignParentStart="true"
+        android:id="@+id/labelMotivation"
+        android:background="@android:color/transparent"
+        android:paddingBottom="10dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Time"
+        android:ems="10"
+        android:id="@+id/labelTime"
+        android:gravity="right|center_vertical"
+        android:layout_alignBaseline="@+id/labelMotivation"
+        android:layout_alignBottom="@+id/labelMotivation"
+        android:layout_toEndOf="@+id/labelSkill"
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/transparent"
+        android:paddingBottom="10dp" />
+
+    <Button
+        android:text="Edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonEdit"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Reason"
+        android:ems="10"
+        android:id="@+id/labelReason"
+        android:gravity="right|center_vertical"
+        android:background="@android:color/transparent"
+        android:paddingBottom="10dp"
+        android:layout_alignBaseline="@+id/labelSkill"
+        android:layout_alignBottom="@+id/labelSkill"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>
