@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import upscaleapps.olympiad.GoogleMaps.MapsFragment;
 import upscaleapps.olympiad.Message.MessageFragment;
+import upscaleapps.olympiad.Message.MessagesFragment;
 import upscaleapps.olympiad.Profile.ProfileFragment;
 import upscaleapps.olympiad.R;
 import upscaleapps.olympiad.Search.SearchFragment;

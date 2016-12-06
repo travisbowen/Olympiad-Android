@@ -33,6 +33,7 @@ import javax.net.ssl.HttpsURLConnection;
 import upscaleapps.olympiad.Login.LoginActivity;
 import upscaleapps.olympiad.R;
 import upscaleapps.olympiad.Register.RegisterActivityA;
+import upscaleapps.olympiad.User;
 
 
 public class ProfileFragment extends Fragment {
@@ -89,21 +90,29 @@ public class ProfileFragment extends Fragment {
         fb.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                        labelName.setText(snapshot.child("name").getValue().toString());
 
-                        labelLocation.setText(snapshot.child("location").getValue().toString());
+                User user = snapshot.getValue(User.class);
 
-                        labelMotivation.setText(snapshot.child("motivation").getValue().toString());
+                if (user != null) {
 
-                        labelReason.setText(snapshot.child("reason").getValue().toString());
+                    String imageURL = user.getImage();
+                    new ProfileFragment.getProfileImage(imageView).execute(imageURL);
+                    
+                    labelName.setText(user.getName());
 
-                        labelSkill.setText(snapshot.child("skill").getValue().toString());
+                    labelLocation.setText(user.getLocation());
 
-                        labelTime.setText(snapshot.child("time").getValue().toString());
+                    labelMotivation.setText(user.getMotivation());
 
-                        String gender = snapshot.child("gender").getValue().toString().substring(0, 1);
-                        labelGenderAge.setText(gender + " - " +
-                                snapshot.child("age").getValue().toString());
+                    labelReason.setText(user.getReason());
+
+                    labelSkill.setText(user.getSkill());
+
+                    labelTime.setText(user.getTime());
+
+                    String gender = user.getGender().substring(0, 1);
+                    labelGenderAge.setText(gender + " - " + user.getAge());
+                }
             }
 
             @Override
@@ -114,32 +123,27 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-//    private class getProfileImage extends AsyncTask<String,Void,Bitmap> {
-//        //                        if (snapshot.child("image")!=null) {
-////                            String imageURL = snapshot.child("image").getValue().toString();
-////                            new getProfileImage(imageView).execute(imageURL);
-////                        }
-//
-//        ImageView imageView;
-//
-//        getProfileImage(ImageView imageView){
-//            this.imageView = imageView;
-//        }
-//
-//        protected Bitmap doInBackground(String...urls){
-//            String urlOfImage = urls[0];
-//            Bitmap b = null;
-//            try{
-//                InputStream is = new URL(urlOfImage).openStream();
-//                b = BitmapFactory.decodeStream(is);
-//            }catch(Exception e){ // Catch the download exception
-//                e.printStackTrace();
-//            }
-//            return b;
-//        }
-//
-//        protected void onPostExecute(Bitmap result){
-//            imageView.setImageBitmap(result);
-//        }
-//    }
+    // Download Image form URL -> Display Profile Image
+    private class getProfileImage extends AsyncTask<String, Void, Bitmap> {
+        ImageView imageView;
+
+        getProfileImage(ImageView imageView) {
+            this.imageView = imageView;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urlOfImage = urls[0];
+            Bitmap b = null;
+            try {
+                InputStream is = new URL(urlOfImage).openStream();
+                b = BitmapFactory.decodeStream(is);
+            } catch (Exception e) { // Catch the download exception
+                e.printStackTrace();
+            }
+            return b;
+        }
+        protected void onPostExecute(Bitmap result) {
+            imageView.setImageBitmap(result);
+        }
+    }
 }

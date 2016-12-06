@@ -1,23 +1,22 @@
 package upscaleapps.olympiad.Register;
 
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
-
-import com.google.firebase.auth.AuthCredential;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -25,20 +24,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
+import java.util.UUID;
 import upscaleapps.olympiad.R;
-import upscaleapps.olympiad.Register.RegisterActivityB;
 import upscaleapps.olympiad.TabBar.TabBarActivity;
-
+import upscaleapps.olympiad.User;
 
 public class RegisterActivityB extends AppCompatActivity implements View.OnClickListener {
 
+    private static final int IMAGE_REQUEST = 101;
     private ImageView regIV;
     private Spinner   regReasonSP;
     private Spinner   regTimeSP;
@@ -53,8 +53,6 @@ public class RegisterActivityB extends AppCompatActivity implements View.OnClick
 
     private FirebaseDatabase db;
     private DatabaseReference fb;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,73 +126,80 @@ public class RegisterActivityB extends AppCompatActivity implements View.OnClick
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {}
         });
+        // Select Image
+        regIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent().setType("image/*").setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(i, "Select Picture"), IMAGE_REQUEST);
+            }
+        });
 
         backBT.setOnClickListener(this);
         nextBT.setOnClickListener(this);
 
         // Read Data if set
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        fb.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//                if (snapshot != null) {
-//                    // Get Image if set
-//                    if (snapshot.child("image").getValue() != null) {
-//                        String imageURL = snapshot.child("image").getValue().toString();
-//                        new RegisterActivityB.getProfileImage(regIV).execute(imageURL);
-//                    }
-//                    // Get Spinner Value
-//                    if (snapshot.child("reason").getValue() != null) {
-//                        String reasonText = snapshot.child("reason").getValue().toString();
-//                        if (reasonText != null) {
-//                            int i = adapterReason.getPosition(reasonText);
-//                            regReasonSP.setSelection(i);
-//                        }
-//                    }
-//
-//                    // Get Spinner Value
-//                    if (snapshot.child("motivation").getValue() != null) {
-//                        String motivationText = snapshot.child("motivation").getValue().toString();
-//                        if (motivationText != null) {
-//                            int i = adapterMotivation.getPosition(motivationText);
-//                            regMotivationSP.setSelection(i);
-//                        }
-//                    }
-//                    // Get Spinner Value
-//                    if (snapshot.child("time").getValue() != null) {
-//                        String timeText = snapshot.child("time").getValue().toString();
-//                        if (timeText != null) {
-//                            int i = adapterTime.getPosition(timeText);
-//                            regTimeSP.setSelection(i);
-//                        }
-//                    }
-//
-//                    // Get Spinner Value
-//                    if (snapshot.child("skill").getValue() != null) {
-//                        String skillText = snapshot.child("skill").getValue().toString();
-//                        if (skillText != null) {
-//                            int i = adapterSkill.getPosition(skillText);
-//                            regSkillSP.setSelection(i);
-//                        }
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        fb.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+
+                User user = snapshot.getValue(User.class);
+
+                if (user != null) {
+
+                    String imageURL = user.getImage();
+                    new RegisterActivityB.getProfileImage(regIV).execute(imageURL);
+
+                    String reasonText = user.getReason();
+                    if (reasonText != null) {
+                        int i = adapterReason.getPosition(reasonText);
+                        regReasonSP.setSelection(i);
+                    }
+
+                    String motivationText = user.getMotivation();
+                    if (motivationText != null) {
+                        int i = adapterMotivation.getPosition(motivationText);
+                        regMotivationSP.setSelection(i);
+                    }
+
+                    String timeText = user.getTime();
+                    if (timeText != null) {
+                        int i = adapterTime.getPosition(timeText);
+                        regTimeSP.setSelection(i);
+                    }
+
+                    String skillText = user.getSkill();
+                    if (skillText != null) {
+                        int i = adapterSkill.getPosition(skillText);
+                        regSkillSP.setSelection(i);
+                    }
+                }
+            }
+            @Override public void onCancelled(DatabaseError databaseError) {}
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri uri = data.getData();
+            try {
+                Bitmap b = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                regIV.setImageBitmap(b);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.backBT:
                 back();
                 break;
-
             case R.id.nextBT:
                 next();
                 break;
@@ -210,15 +215,41 @@ public class RegisterActivityB extends AppCompatActivity implements View.OnClick
     //Go to Main
     public void next(){
         // Store Data to Firebase
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            fb.child(user.getUid()).child("reason").setValue(reasonText);
-            fb.child(user.getUid()).child("time").setValue(timeText);
-            fb.child(user.getUid()).child("motivation").setValue(motivationText);
-            fb.child(user.getUid()).child("skill").setValue(skillText);
+            // Get Image from ImageView
+            regIV.setDrawingCacheEnabled(true);
+            regIV.buildDrawingCache();
+            Bitmap b = regIV.getDrawingCache();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            b.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] y = baos.toByteArray();
+            final Intent i = new Intent(this, TabBarActivity.class);
+
+            // Upload Image to Storage
+            String uid = UUID.randomUUID().toString();
+            StorageReference storage = FirebaseStorage.getInstance().getReference()
+                    .child("Profile Images").child(uid);
+            UploadTask ut = storage.putBytes(y);
+            ut.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    imageText = taskSnapshot.getDownloadUrl().toString();
+
+                    fb.child(user.getUid()).child("reason").setValue(reasonText);
+                    fb.child(user.getUid()).child("time").setValue(timeText);
+                    fb.child(user.getUid()).child("motivation").setValue(motivationText);
+                    fb.child(user.getUid()).child("skill").setValue(skillText);
+                    fb.child(user.getUid()).child("image").setValue(imageText);
+
+                    startActivity(i);
+                }
+            });
         }
-        Intent intent = new Intent(this, TabBarActivity.class);
-        startActivity(intent);
     }
 
     private class getProfileImage extends AsyncTask<String,Void,Bitmap> {
