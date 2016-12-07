@@ -4,38 +4,56 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#cccccc">
+    android:background="#24242f">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/backBT"/>
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:id="@+id/backBT"
+        android:layout_margin="12dp"
+        android:background="@drawable/ic_action_back" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/nextBT"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/ic_action_done"
+        android:layout_height="32dp"
+        android:layout_width="32dp"
+        android:layout_margin="12dp" />
+    <TextView
+        android:text="Edit"
+        android:layout_width="wrap_content"
+        android:id="@+id/textView"
+        android:gravity="center"
+        android:textColor="#fff"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_height="54dp"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentTop="true" />
+
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#cccccc"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:background="#24242f"
+    android:layout_alignParentStart="true"
+    android:layout_below="@+id/backBT">
 
         <ImageView
             android:layout_width="100dp"
             android:layout_gravity="center_horizontal"
-            android:background="#ffffff"
+            android:background="#24242f"
             android:id="@+id/regIV"
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
-            android:layout_height="300dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_height="280dp" />
 
 
         <Spinner
@@ -47,7 +65,10 @@
             android:layout_alignParentStart="true"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="20dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:scrollbarSize="32dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp" />
 
         <Spinner
             android:layout_width="match_parent"
@@ -58,7 +79,10 @@
             android:layout_alignParentStart="true"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="20dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:scrollbarSize="32dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp" />
 
         <Spinner
             android:layout_width="match_parent"
@@ -69,7 +93,10 @@
             android:layout_alignParentStart="true"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="20dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:scrollbarSize="32dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp" />
 
         <Spinner
             android:layout_width="match_parent"
@@ -80,7 +107,10 @@
             android:layout_alignParentStart="true"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="20dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:scrollbarSize="32dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp" />
 
     </RelativeLayout>
 

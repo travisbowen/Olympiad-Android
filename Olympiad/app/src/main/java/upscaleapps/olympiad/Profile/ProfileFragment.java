@@ -22,8 +22,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -49,6 +56,7 @@ public class ProfileFragment extends Fragment {
     TextView labelTime;
     ImageView imageView;
     Button buttonEdit;
+    Button buttonLogout;
 
     private FirebaseDatabase db;
     private DatabaseReference fb;
@@ -75,6 +83,7 @@ public class ProfileFragment extends Fragment {
         labelReason = (TextView) view.findViewById(R.id.labelReason);
         imageView = (ImageView) view.findViewById(R.id.imageView);
         buttonEdit = (Button) view.findViewById(R.id.buttonEdit);
+        buttonLogout = (Button) view.findViewById(R.id.buttonLogout);
 
         // If Edit button click
         buttonEdit.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +91,24 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), RegisterActivityA.class);
                 startActivity(intent);
+            }
+        });
+        // If Logout button click
+        buttonLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (readData()!=null) {
+                    // Delete User Saved Login
+                    File external = getActivity().getExternalFilesDir(null);
+                    File file = new File(external, "user.txt");
+                    if (file.exists()) {
+                        file.delete();
+                        // Go to Login
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(intent);
+                    }
+                }
             }
         });
 
@@ -144,6 +171,41 @@ public class ProfileFragment extends Fragment {
         }
         protected void onPostExecute(Bitmap result) {
             imageView.setImageBitmap(result);
+        }
+    }
+
+    // Get User Info From Local Storage
+    private JSONObject readData(){
+        String result = "";
+        File external = getActivity().getExternalFilesDir(null);
+        File file = new File(external, "user.txt");
+        if (file.exists()) {
+            try {
+                FileInputStream fin = new FileInputStream(file);
+                InputStreamReader isr = new InputStreamReader(fin);
+                char[] data = new char[2048];
+                int size;
+                try {
+                    while ((size = isr.read(data)) > 0) {
+                        String readData = String.copyValueOf(data, 0, size);
+                        result += readData;
+                        data = new char[2048];
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            JSONObject object = null;
+            try {
+                object = new JSONObject(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return object;
+        } else {
+            return null;
         }
     }
 }

@@ -78,7 +78,7 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
         regAgeET = (EditText) findViewById(R.id.regAgeET);
         regGenderSP = (Spinner) findViewById(R.id.regGenderSP);
         regLocationET = (EditText) findViewById(R.id.regLocationET);
-        Button backBT = (Button) findViewById(R.id.backBT);
+        final Button backBT = (Button) findViewById(R.id.backBT);
         Button nextBT = (Button) findViewById(R.id.nextBT);
 
         backBT.setOnClickListener(this);
@@ -87,7 +87,7 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
         String[] gender = {"Gender", "Male", "Female", "Other"};
 
         final ArrayAdapter<String> adapterGender = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, gender);
+                R.layout.spinner_item, gender);
 
         regGenderSP.setAdapter(adapterGender);
         // Selected Gender
@@ -132,6 +132,9 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
                         regGenderSP.setSelection(i);
                     }
 
+                } else {
+                    // Hide back button
+                    backBT.setVisibility(View.GONE);
                 }
             }
 
@@ -170,10 +173,9 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
         }
     }
 
-    // Go back to login
+    // Go back to profile
     public void back() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+       finish();
     }
 
     // Go to register B

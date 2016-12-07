@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="upscaleapps.olympiad.Profile.ProfileFragment">
+    tools:context="upscaleapps.olympiad.Profile.ProfileFragment"
+    android:background="#24242f">
 
 
     <ImageView
@@ -13,7 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:background="@android:color/darker_gray"
+        android:background="#24242c"
         android:scaleType="centerCrop"
         android:layout_height="320dp"
         android:layout_marginBottom="10dp" />
@@ -29,7 +30,12 @@
         android:id="@+id/labelName"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:background="@android:color/transparent"
-        android:paddingBottom="10dp" />
+        android:paddingBottom="10dp"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
 
     <EditText
         android:layout_height="wrap_content"
@@ -43,7 +49,12 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="100dp"
         android:background="@android:color/transparent"
-        android:paddingBottom="10dp" />
+        android:paddingBottom="10dp"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:layout_marginRight="10dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -55,7 +66,11 @@
         android:layout_alignParentStart="true"
         android:id="@+id/labelLocation"
         android:background="@android:color/transparent"
-        android:paddingBottom="10dp" />
+        android:paddingBottom="10dp"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="10dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -67,7 +82,11 @@
         android:layout_below="@+id/labelLocation"
         android:layout_alignParentStart="true"
         android:background="@android:color/transparent"
-        android:paddingBottom="10dp" />
+        android:paddingBottom="10dp"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="10dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -79,7 +98,11 @@
         android:layout_alignParentStart="true"
         android:id="@+id/labelMotivation"
         android:background="@android:color/transparent"
-        android:paddingBottom="10dp" />
+        android:paddingBottom="10dp"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="10dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -94,15 +117,11 @@
         android:layout_toEndOf="@+id/labelSkill"
         android:layout_alignParentEnd="true"
         android:background="@android:color/transparent"
-        android:paddingBottom="10dp" />
-
-    <Button
-        android:text="Edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonEdit"
-        android:layout_alignBottom="@+id/imageView"
-        android:layout_alignParentEnd="true" />
+        android:paddingBottom="10dp"
+        android:textColor="#ffffff"
+        android:layout_marginRight="10dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -116,5 +135,37 @@
         android:paddingBottom="10dp"
         android:layout_alignBaseline="@+id/labelSkill"
         android:layout_alignBottom="@+id/labelSkill"
+        android:layout_alignParentEnd="true"
+        android:textColor="#ffffff"
+        android:layout_marginRight="10dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+    <Button
+        android:text="Logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonLogout"
+        android:textColorLink="#00D050"
+        android:textColorHint="#00D050"
+        android:textColorHighlight="#00D050"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorPrimary"
+        android:layout_below="@+id/labelMotivation"
+        android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonEdit"
+        android:textColorLink="#00D050"
+        android:textColorHint="#00D050"
+        android:textColorHighlight="#00D050"
+        android:textColor="#FFFFFF"
+        android:background="#00D050"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>

@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:id="@+id/conversations_row"
-        android:background="@color/wallet_dim_foreground_holo_dark"
+        android:background="#30303c"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
 
@@ -16,7 +16,7 @@
             android:layout_width="4dp"
             android:layout_height="72dp"
             android:layout_alignParentStart="true"
-            android:background="@android:color/holo_red_light"
+            android:background="#30303c"
             android:id="@+id/userActive">
 
         </RelativeLayout>
@@ -27,7 +27,8 @@
             app:srcCompat="@drawable/cast_expanded_controller_seekbar_thumb"
             android:id="@+id/userImage"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="4dp" />
+            android:layout_marginLeft="4dp"
+            android:cropToPadding="false" />
 
         <TextView
             android:text="TextView"
@@ -38,7 +39,22 @@
             android:layout_toEndOf="@+id/userImage"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="4dp"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:text="TextView"
+            android:id="@+id/userMessage"
+            android:layout_marginLeft="4dp"
+            android:textColor="#999"
+            android:maxLines="2"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="4dp"
+            android:layout_below="@+id/userName"
+            android:layout_alignEnd="@+id/userTime"
+            android:layout_toEndOf="@+id/userImage" />
 
         <TextView
             android:text="TextView"
@@ -47,22 +63,9 @@
             android:id="@+id/userTime"
             android:layout_marginRight="10dp"
             android:gravity="right"
-            android:textSize="8sp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true" />
-
-        <TextView
-            android:text="TextView"
-            android:id="@+id/userMessage"
-            android:layout_marginLeft="4dp"
-            android:textColor="@color/wallet_hint_foreground_holo_dark"
-            android:maxLines="2"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/userTime"
-            android:layout_alignStart="@+id/userName"
-            android:layout_width="match_parent"
-            android:layout_toStartOf="@+id/userTime"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="4dp" />
+            android:textSize="14sp"
+            android:layout_above="@+id/userMessage"
+            android:layout_alignParentEnd="true"
+            android:textColor="#999" />
     </RelativeLayout>
 </RelativeLayout>

@@ -1,6 +1,8 @@
 package upscaleapps.olympiad.Login;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +28,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
@@ -41,6 +45,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth.AuthStateListener mAuthListener;
     private EditText userEmailET;
     private EditText userPassET;
+    private ImageView logoImage;
+    private ImageView backgroundImage;
 
 
     @Override
@@ -52,8 +58,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         userEmailET = (EditText)findViewById(R.id.userEmailET);
         userPassET = (EditText)findViewById(R.id.userPassET);
+        logoImage = (ImageView)findViewById(R.id.app_logo);
+        backgroundImage = (ImageView)findViewById(R.id.background);
         Button loginButton = (Button)findViewById(R.id.loginButton);
         Button signUpButton = (Button)findViewById(R.id.signUpButton);
+
+        InputStream rawLogo = getResources().openRawResource(R.raw.app_logo);
+        InputStream rawBg = getResources().openRawResource(R.raw.app_background);
+        Bitmap logo = BitmapFactory.decodeStream(rawLogo);
+        Bitmap bg = BitmapFactory.decodeStream(rawBg);
+        backgroundImage.setImageBitmap(bg);
+        logoImage.setImageBitmap(logo);
 
         loginButton.setOnClickListener(this);
         signUpButton.setOnClickListener(this);

@@ -77,13 +77,13 @@ public class RegisterActivityB extends AppCompatActivity implements View.OnClick
         String[] skill      = {"Skill Level", "Beginner", "Intermediate", "Expert"};
 
         final ArrayAdapter<String> adapterReason =  new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, reasons);
+                R.layout.spinner_item, reasons);
         final ArrayAdapter<String> adapterTime =  new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, time);
+                R.layout.spinner_item, time);
         final ArrayAdapter<String> adapterMotivation =  new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, motivation);
+                R.layout.spinner_item, motivation);
         final ArrayAdapter<String> adapterSkill =  new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, skill);
+                R.layout.spinner_item, skill);
 
         regReasonSP.setAdapter(adapterReason);
         regTimeSP.setAdapter(adapterTime);
