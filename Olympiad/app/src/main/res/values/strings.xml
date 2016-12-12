@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Olympiad</string>
     <string name="title_activity_maps">Map</string>
+    <string name="banner_ad_unit_id">ca-app-pub-1143273463088335/4133919206</string>
 
     <string-array name="spinner_item">
         <item>All</item>

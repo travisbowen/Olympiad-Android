@@ -4,14 +4,14 @@ package upscaleapps.olympiad.Register;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,11 +40,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
-import upscaleapps.olympiad.Login.LoginActivity;
-import upscaleapps.olympiad.Profile.ProfileFragment;
-import upscaleapps.olympiad.Register.RegisterActivityA;
 import upscaleapps.olympiad.R;
 import upscaleapps.olympiad.User;
 
@@ -54,7 +55,6 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
     private EditText regNameET;
     private EditText regAgeET;
     private Spinner regGenderSP;
-    private EditText regLocationET;
 
     private String imageText;
     private String nameText;
@@ -65,10 +65,21 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
     private FirebaseDatabase db;
     private DatabaseReference fb;
 
+    private AdView mAdView;
+
+    GPSCoordinates gps;
+    double latitude;
+    double longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_a);
+
+        //Setting Admob
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         db = FirebaseDatabase.getInstance();
         fb = db.getReference("users");
@@ -77,10 +88,11 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
         regNameET = (EditText) findViewById(R.id.regReasonET);
         regAgeET = (EditText) findViewById(R.id.regAgeET);
         regGenderSP = (Spinner) findViewById(R.id.regGenderSP);
-        regLocationET = (EditText) findViewById(R.id.regLocationET);
+        final Button locationBT = (Button) findViewById(R.id.locationBT);
         final Button backBT = (Button) findViewById(R.id.backBT);
         Button nextBT = (Button) findViewById(R.id.nextBT);
 
+        locationBT.setOnClickListener(this);
         backBT.setOnClickListener(this);
         nextBT.setOnClickListener(this);
 
@@ -170,6 +182,10 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
             case R.id.nextBT:
                 next();
                 break;
+
+            case R.id.locationBT:
+                getLocation();
+                break;
         }
     }
 
@@ -220,6 +236,41 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
             });
         }
     }
+
+
+    //Retrieve users location from button tap
+    private void getLocation(){
+        gps = new GPSCoordinates(RegisterActivityA.this);
+
+        //Retrieving location
+        if(gps.canGetLocation()){
+            latitude = gps.getLatitude();
+            longitude = gps.getLongitude();
+            Log.d("getLocation: ", latitude+"" + longitude+"");
+        }
+
+        //Geocoder to get city/state
+        Geocoder gcd = new Geocoder(this, Locale.getDefault());
+        List<Address> addresses = null;
+        try {
+            //Setting address from lat and long
+            addresses = gcd.getFromLocation(latitude, longitude, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (addresses.size() > 0) {
+
+            //getLocality returns city
+            Log.d("getLocation: ", addresses.get(0).getLocality());
+
+            //getAdminArea returns state
+            Log.d("getLocation: ", addresses.get(0).getAdminArea());
+
+        } else {
+            // do error handling
+        }
+    }
+
 
     // Download Image form URL -> Display Profile Image
     private class getProfileImage extends AsyncTask<String, Void, Bitmap> {

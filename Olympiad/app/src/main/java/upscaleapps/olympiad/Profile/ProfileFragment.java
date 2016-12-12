@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,17 +33,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
 
 import upscaleapps.olympiad.Login.LoginActivity;
 import upscaleapps.olympiad.R;
 import upscaleapps.olympiad.Register.RegisterActivityA;
 import upscaleapps.olympiad.User;
-
 
 public class ProfileFragment extends Fragment {
 
@@ -58,6 +55,8 @@ public class ProfileFragment extends Fragment {
     Button buttonEdit;
     Button buttonLogout;
 
+    private AdView mAdView;
+
     private FirebaseDatabase db;
     private DatabaseReference fb;
 
@@ -70,6 +69,13 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+//        MobileAds.initialize(getApplicationContext(), "ca-app-pub-1143273463088335/4133919206");
+
+
+        AdView mAdView = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         db = FirebaseDatabase.getInstance();
         fb = db.getReference("users");
