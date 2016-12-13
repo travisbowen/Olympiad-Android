@@ -15,11 +15,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.vision.text.Text;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -53,6 +56,7 @@ public class RegisterActivityB extends AppCompatActivity implements View.OnClick
     private String timeText;
     private String motivationText;
     private String skillText;
+    private TextView uploadHint;
 
     private FirebaseDatabase db;
     private DatabaseReference fb;
@@ -76,8 +80,10 @@ public class RegisterActivityB extends AppCompatActivity implements View.OnClick
         regTimeSP       = (Spinner)findViewById(R.id.regTimeSP);
         regMotivationSP = (Spinner)findViewById(R.id.regMotivationSP);
         regSkillSP      = (Spinner)findViewById(R.id.regSkillSP);
+        uploadHint      = (TextView)findViewById(R.id.uploadHint);
         Button backBT   = (Button)findViewById(R.id.backBT);
         Button nextBT   = (Button)findViewById(R.id.nextBT);
+
 
         String[] reasons    = {"App Use Reason", "Martial Arts", "Weightlifting", "Swimming", "Running",
                 "Weight Loss", "Hiking", "Sports", "Commuting to Gym", "Going to Events"};
@@ -210,7 +216,16 @@ public class RegisterActivityB extends AppCompatActivity implements View.OnClick
                 back();
                 break;
             case R.id.nextBT:
-                next();
+                if (motivationText.equals("App Use Reason") ||
+                        skillText.equals("Workout Time") ||
+                        reasonText.equals("Motivation") ||
+                        timeText.equals("Skill Level") ||
+                        regIV.getDrawable() == null ) {
+                    Toast.makeText(this, "Please Enter in All Fields.",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    next();
+                }
                 break;
         }
     }
@@ -281,6 +296,7 @@ public class RegisterActivityB extends AppCompatActivity implements View.OnClick
         }
 
         protected void onPostExecute(Bitmap result){
+            uploadHint.setVisibility(View.GONE);
             imageView.setImageBitmap(result);
         }
     }

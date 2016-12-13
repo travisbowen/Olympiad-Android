@@ -20,6 +20,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -42,6 +44,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.UUID;
 
 import upscaleapps.olympiad.R;
@@ -55,6 +58,7 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
     private EditText regNameET;
     private EditText regAgeET;
     private Spinner regGenderSP;
+    private TextView regLocationTV;
 
     private String imageText;
     private String nameText;
@@ -62,14 +66,15 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
     private String genderText;
     private String locationText;
 
+    private TextView uploadHint;
     private FirebaseDatabase db;
     private DatabaseReference fb;
 
     private AdView mAdView;
 
     GPSCoordinates gps;
-    double latitude;
-    double longitude;
+    Double latitude = 0.0;
+    Double longitude = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +93,8 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
         regNameET = (EditText) findViewById(R.id.regReasonET);
         regAgeET = (EditText) findViewById(R.id.regAgeET);
         regGenderSP = (Spinner) findViewById(R.id.regGenderSP);
+        regLocationTV = (TextView) findViewById(R.id.reglocationTV);
+        uploadHint = (TextView) findViewById(R.id.uploadHint);
         final Button locationBT = (Button) findViewById(R.id.locationBT);
         final Button backBT = (Button) findViewById(R.id.backBT);
         Button nextBT = (Button) findViewById(R.id.nextBT);
@@ -137,8 +144,10 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
 
                     regNameET.setText(user.getName());
                     regAgeET.setText(user.getAge());
-                    regLocationET.setText(user.getLocation());
+                    regLocationTV.setText(user.getLocation());
                     genderText = user.getGender();
+                    longitude = user.getLongitude();
+                    latitude = user.getLatitude();
                     if (genderText != null) {
                         int i = adapterGender.getPosition(genderText);
                         regGenderSP.setSelection(i);
@@ -180,11 +189,20 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.nextBT:
-                next();
+                // if empty set toast
+                if (regNameET.getText().equals("") ||
+                        regAgeET.getText().equals("")  ||
+                        genderText.equals("Gender") ||
+                        regLocationTV.getText().equals("")) {
+                    Toast.makeText(this, "Please Enter in All Fields.",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    next();
+                }
                 break;
 
             case R.id.locationBT:
-                getLocation();
+                getUserLocation();
                 break;
         }
     }
@@ -200,7 +218,7 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
         if (user != null) {
             nameText = regNameET.getText().toString();
             ageText = regAgeET.getText().toString();
-            locationText = regLocationET.getText().toString();
+            locationText = regLocationTV.getText().toString();
 
             // Get Image from ImageView
             regIV.setDrawingCacheEnabled(true);
@@ -229,6 +247,8 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
                     fb.child(user.getUid()).child("age").setValue(ageText);
                     fb.child(user.getUid()).child("gender").setValue(genderText);
                     fb.child(user.getUid()).child("location").setValue(locationText);
+                    fb.child(user.getUid()).child("latitude").setValue(latitude);
+                    fb.child(user.getUid()).child("longitude").setValue(longitude);
                     fb.child(user.getUid()).child("image").setValue(imageText);
 
                     startActivity(i);
@@ -239,14 +259,13 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
 
 
     //Retrieve users location from button tap
-    private void getLocation(){
+    private void getUserLocation(){
         gps = new GPSCoordinates(RegisterActivityA.this);
 
         //Retrieving location
         if(gps.canGetLocation()){
             latitude = gps.getLatitude();
             longitude = gps.getLongitude();
-            Log.d("getLocation: ", latitude+"" + longitude+"");
         }
 
         //Geocoder to get city/state
@@ -259,13 +278,10 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
             e.printStackTrace();
         }
         if (addresses.size() > 0) {
-
-            //getLocality returns city
-            Log.d("getLocation: ", addresses.get(0).getLocality());
-
-            //getAdminArea returns state
-            Log.d("getLocation: ", addresses.get(0).getAdminArea());
-
+            String address = addresses.get(0).getAddressLine(1);
+            String[] array = address.split(" ");
+            String cityState = array[0] + " " + array[1];
+            regLocationTV.setText(cityState);
         } else {
             // do error handling
         }
@@ -292,6 +308,7 @@ public class RegisterActivityA extends AppCompatActivity implements View.OnClick
             return b;
         }
         protected void onPostExecute(Bitmap result) {
+            uploadHint.setVisibility(View.GONE);
             imageView.setImageBitmap(result);
         }
     }

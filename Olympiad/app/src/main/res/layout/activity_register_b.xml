@@ -47,7 +47,7 @@
     android:layout_alignParentStart="true"
     android:layout_below="@+id/backBT">
 
-        <ImageView
+    <ImageView
             android:layout_width="100dp"
             android:layout_gravity="center_horizontal"
             android:background="#24242f"
@@ -57,63 +57,111 @@
             android:layout_height="280dp" />
 
 
-        <Spinner
+    <TextView
+        android:text="Click to Upload Image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="131dp"
+        android:id="@+id/uploadHint"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="#999999" />
+
+    <Spinner
             android:layout_width="match_parent"
             android:id="@+id/regReasonSP"
             android:paddingBottom="12dp"
             android:paddingTop="12dp"
             android:layout_below="@+id/regIV"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="4dp"
             android:layout_marginBottom="20dp"
             android:layout_height="wrap_content"
             android:scrollbarSize="32dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp" />
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:id="@+id/regTimeSP"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:layout_below="@+id/regReasonSP"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="20dp"
-            android:layout_height="wrap_content"
-            android:scrollbarSize="32dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp" />
+    <TextView
+        android:text="App Reason:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView6"
+        android:layout_above="@+id/regReasonSP"
+        android:layout_alignStart="@+id/regReasonSP"
+        android:layout_alignEnd="@+id/regReasonSP"
+        android:textColor="#999" />
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:id="@+id/regMotivationSP"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:layout_below="@+id/regTimeSP"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="20dp"
-            android:layout_height="wrap_content"
-            android:scrollbarSize="32dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp" />
+    <TextView
+        android:text="Workout Time:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView5"
+        android:textColor="#999"
+        android:layout_below="@+id/regReasonSP"
+        android:layout_alignStart="@+id/regReasonSP"
+        android:layout_alignEnd="@+id/regReasonSP" />
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:id="@+id/regSkillSP"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:layout_below="@+id/regMotivationSP"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="20dp"
-            android:layout_height="wrap_content"
-            android:scrollbarSize="32dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp" />
+    <Spinner
+        android:layout_width="match_parent"
+        android:id="@+id/regTimeSP"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:layout_height="wrap_content"
+        android:scrollbarSize="32dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@+id/textView5"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="20dp" />
 
-    </RelativeLayout>
+    <TextView
+        android:text="Motivation Level:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView7"
+        android:textColor="#999"
+        android:layout_below="@+id/regTimeSP"
+        android:layout_alignStart="@+id/regTimeSP"
+        android:layout_alignEnd="@+id/regTimeSP" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:id="@+id/regMotivationSP"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:layout_height="wrap_content"
+        android:scrollbarSize="32dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@+id/textView7"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:text="Skill Level:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView10"
+        android:textColor="#999"
+        android:layout_below="@+id/regMotivationSP"
+        android:layout_alignStart="@+id/regMotivationSP"
+        android:layout_alignEnd="@+id/regMotivationSP" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:id="@+id/regSkillSP"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
+        android:layout_height="wrap_content"
+        android:scrollbarSize="32dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_below="@+id/textView10"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="4dp" />
+
+</RelativeLayout>
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"

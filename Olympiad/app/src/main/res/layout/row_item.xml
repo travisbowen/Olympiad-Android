@@ -44,5 +44,12 @@
             android:text="Users Location is "
             android:textColor="@android:color/darker_gray" />
 
+        <TextView
+            android:id="@+id/userDistanceTV"
+            android:layout_width="165dp"
+            android:layout_height="wrap_content"
+            android:text="Users Distance is "
+            android:textColor="@android:color/darker_gray" />
+
     </LinearLayout>
 </RelativeLayout>

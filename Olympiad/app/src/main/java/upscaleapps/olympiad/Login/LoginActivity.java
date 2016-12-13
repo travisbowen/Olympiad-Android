@@ -92,6 +92,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         JSONObject u = readData();
             try {
                 login(u.getString("email"), u.getString("password"));
+                Toast.makeText(LoginActivity.this, "User Found. Sign in Attempt.",
+                        Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -141,6 +143,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (!task.isSuccessful()) {
                         Log.w("SignIn Error", "signInWithEmail:failed", task.getException());
                     } else {
+                        Toast.makeText(LoginActivity.this, "Logging in...",
+                                Toast.LENGTH_LONG).show();
                         // Save User Locally
                         saveData(email, pass);
 

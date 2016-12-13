@@ -1,6 +1,7 @@
 package upscaleapps.olympiad.Search;
 
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -22,6 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Objects;
 
 import upscaleapps.olympiad.R;
 
@@ -45,6 +49,8 @@ public class SearchFragment extends Fragment{
     private String signedGender;
     private String signedReason;
     private String signedSkill;
+    private Double currentUsersLatitude;
+    private Double currentUsersLongitude;
 
     private AdView mAdView;
 
@@ -119,6 +125,8 @@ public class SearchFragment extends Fragment{
                 signedGender = snapshot.child("gender").getValue().toString();
                 signedReason = snapshot.child("reason").getValue().toString();
                 signedSkill = snapshot.child("skill").getValue().toString();
+                currentUsersLatitude = (Double) snapshot.child("latitude").getValue();
+                currentUsersLongitude = (Double) snapshot.child("longitude").getValue();
                 usersFirebaseListener();
             }
 
@@ -154,9 +162,12 @@ public class SearchFragment extends Fragment{
             String gender = ds.child("gender").getValue().toString();
             String age = ds.child("age").getValue().toString();
             String location = ds.child("location").getValue().toString();
+            Double latitude = (Double) ds.child("latitude").getValue();
+            Double longitude = (Double) ds.child("longitude").getValue();
             String image = ds.child("image").getValue().toString();
             String reason = ds.child("reason").getValue().toString();
             String skill = ds.child("skill").getValue().toString();
+            String email = ds.child("email").getValue().toString();
 
             UserObject user = new UserObject();
 
@@ -165,29 +176,77 @@ public class SearchFragment extends Fragment{
             user.setGender(gender);
             user.setAge(age);
             user.setLocation(location);
+            user.setLatitude(latitude);
+            user.setLongitude(longitude);
             user.setImage(image);
             user.setReason(reason);
             user.setSkill(skill);
+            user.setEmail(email);
 
-            userList.add(user);
+            // "As the Crow Flies" distance
+            Location currentUserLocation = new Location("Current User");
+            currentUserLocation.setLatitude(currentUsersLatitude);
+            currentUserLocation.setLongitude(currentUsersLongitude);
 
+            Location foundUserLocation = new Location("Found User");
+            foundUserLocation.setLatitude(user.getLatitude());
+            foundUserLocation.setLongitude(user.getLongitude());
 
+            Double distanceAwayInMiles = (currentUserLocation
+                    .distanceTo(foundUserLocation)/1000*0.62137119);
+
+            user.setDistance(distanceAwayInMiles);
+            if (signedUser.getEmail() != user.getEmail()) {
+                userList.add(user);
+            }
             if (signedAge.equals(user.getAge())){
                 ageList.add(user);
+                Collections.sort(ageList, new Comparator<UserObject>() {
+                    @Override
+                    public int compare(UserObject uo1, UserObject uo2) {
+                        return uo1.getDistance().compareTo(uo2.getDistance());
+                    }
+                });
             }
 
             if (signedGender.equals(user.getGender())){
                 genderList.add(user);
+                Collections.sort(genderList, new Comparator<UserObject>() {
+                    @Override
+                    public int compare(UserObject uo1, UserObject uo2) {
+                        return uo1.getDistance().compareTo(uo2.getDistance());
+                    }
+                });
             }
 
             if (signedReason.equals(user.getReason())){
                 reasonList.add(user);
+                Collections.sort(reasonList, new Comparator<UserObject>() {
+                    @Override
+                    public int compare(UserObject uo1, UserObject uo2) {
+                        return uo1.getDistance().compareTo(uo2.getDistance());
+                    }
+                });
             }
 
             if (signedSkill.equals(user.getSkill())){
                 skillList.add(user);
+                Collections.sort(skillList, new Comparator<UserObject>() {
+                    @Override
+                    public int compare(UserObject uo1, UserObject uo2) {
+                        return uo1.getDistance().compareTo(uo2.getDistance());
+                    }
+                });
             }
         }
+
+        Collections.sort(userList, new Comparator<UserObject>() {
+            @Override
+            public int compare(UserObject uo1, UserObject uo2) {
+                return uo1.getDistance().compareTo(uo2.getDistance());
+            }
+        });
+
         listAdapter = new CustomAdapter(getContext(), userList);
         lv.setAdapter(listAdapter);
     }

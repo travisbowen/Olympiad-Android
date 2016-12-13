@@ -47,64 +47,6 @@
         android:layout_below="@+id/nextBT">
 
 
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/colorPrimary"
-            android:id="@+id/regReasonET"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:layout_below="@+id/regIV"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="8dp"
-            android:hint="Name"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:paddingLeft="10dp"
-            android:textColor="#fff" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/colorPrimary"
-            android:id="@+id/regAgeET"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:layout_below="@+id/regReasonET"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="8dp"
-            android:hint="Age"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:paddingLeft="10dp"
-            android:textColor="#fff" />
-
-        <Button
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:id="@+id/locationBT"
-            android:layout_gravity="center_horizontal"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:layout_below="@+id/regGenderSP"
-            android:layout_alignParentStart="true"
-            android:textColor="#fff"
-            android:layout_alignEnd="@+id/regGenderSP" />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:id="@+id/regGenderSP"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:layout_below="@+id/regAgeET"
-            android:layout_alignParentStart="true"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginBottom="8dp" />
-
         <ImageView
             android:layout_width="100dp"
             android:layout_gravity="center_horizontal"
@@ -116,6 +58,118 @@
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="8dp"
             android:layout_height="280dp" />
+
+        <TextView
+            android:text="Click to Upload Image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="131dp"
+            android:id="@+id/uploadHint"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#999999" />
+
+        <TextView
+            android:text="Age:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            android:paddingBottom="4dp"
+            android:textColor="#999"
+            android:layout_below="@+id/regReasonET"
+            android:layout_alignStart="@+id/regAgeET"
+            android:layout_alignEnd="@+id/regAgeET" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/colorPrimary"
+            android:id="@+id/regAgeET"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:hint="Age"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:paddingLeft="10dp"
+            android:textColor="#fff"
+            android:textColorHint="#999999"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:text="Gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4"
+            android:paddingBottom="4dp"
+            android:textColor="#999"
+            android:layout_below="@+id/regAgeET"
+            android:layout_alignStart="@+id/regAgeET"
+            android:layout_alignEnd="@+id/regAgeET" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:id="@+id/regGenderSP"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView4"
+            android:layout_alignStart="@+id/textView4"
+            android:layout_alignEnd="@+id/textView4" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/reglocationTV"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:layout_alignBottom="@+id/locationBT"
+            android:layout_alignStart="@+id/textView4"
+            android:layout_toStartOf="@+id/locationBT" />
+
+        <TextView
+            android:text="Name:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:paddingBottom="4dp"
+            android:textColor="#999"
+            android:layout_below="@+id/regIV"
+            android:layout_alignStart="@+id/regReasonET"
+            android:layout_alignEnd="@+id/regReasonET" />
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/colorPrimary"
+                android:id="@+id/regReasonET"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+            android:hint="Name"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:paddingLeft="10dp"
+                android:textColor="#fff"
+            android:textColorHint="#999999"
+            android:layout_below="@+id/textView3"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/locationBT"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="12dp"
+            android:textColor="#24242f"
+            android:text="Get Location"
+            android:textSize="8sp"
+            android:layout_width="90dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="25dp"
+            android:layout_below="@+id/regGenderSP"
+            android:layout_alignEnd="@+id/regGenderSP" />
 
     </RelativeLayout>
 

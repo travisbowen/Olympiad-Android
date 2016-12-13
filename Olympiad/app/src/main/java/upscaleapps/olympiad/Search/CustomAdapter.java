@@ -55,6 +55,7 @@ public class CustomAdapter extends BaseAdapter{
         TextView userName = (TextView) view.findViewById(R.id.userNameTV);
         TextView userInfo = (TextView) view.findViewById(R.id.userInfoTV);
         TextView userLocation = (TextView) view.findViewById(R.id.userLocationTV);
+        TextView userDistance = (TextView) view.findViewById(R.id.userDistanceTV);
 
         String imageUrl = mUserList.get(position).getImage();
         new getProfileImage(userImage).execute(imageUrl);
@@ -62,6 +63,8 @@ public class CustomAdapter extends BaseAdapter{
         userName.setText(mUserList.get(position).getName());
         userInfo.setText(mUserList.get(position).getGender() + " - " + mUserList.get(position).getAge());
         userLocation.setText(mUserList.get(position).getLocation());
+        String distance = String.format("%.2f", mUserList.get(position).getDistance());
+        userDistance.setText(distance + " miles");
 
         return view;
     }
