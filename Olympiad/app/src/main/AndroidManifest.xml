@@ -51,9 +51,6 @@
         <activity android:name=".Register.RegisterActivityB"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".Message.MessageActivity"
-            android:screenOrientation="portrait" />
-
     </application>
 
 </manifest>
