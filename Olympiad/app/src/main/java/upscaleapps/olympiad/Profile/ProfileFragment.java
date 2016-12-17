@@ -62,6 +62,7 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
     ImageView imageView;
     Button buttonEdit;
     Button buttonLogout;
+    Button buttonInvite;
 
     private AdView mAdView;
     private GoogleApiClient mGoogleApiClient;
@@ -103,6 +104,7 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
         imageView = (ImageView) view.findViewById(R.id.imageView);
         buttonEdit = (Button) view.findViewById(R.id.buttonEdit);
         buttonLogout = (Button) view.findViewById(R.id.buttonLogout);
+        buttonInvite = (Button) view.findViewById(R.id.buttonInvite);
 
         // If Edit button click
         buttonEdit.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +114,7 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
                 startActivity(intent);
             }
         });
+
         // If Logout button click
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +131,14 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
                         startActivity(intent);
                     }
                 }
+            }
+        });
+
+        // If Invite button click
+        buttonInvite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendInvitation();
             }
         });
 
