@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fastScrollEnabled="true"
     tools:context="upscaleapps.olympiad.Profile.ProfileFragment"
     android:background="#24242f">
 
@@ -16,9 +17,12 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:background="#24242c"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         android:layout_height="280dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:cropToPadding="false"
+        android:adjustViewBounds="false"
+        android:layout_marginTop="100dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -50,94 +54,8 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="100dp"
         android:background="@android:color/transparent"
-        android:paddingBottom="10dp"
         android:textColor="#ffffff"
         android:textStyle="bold"
-        android:layout_marginRight="10dp"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Location"
-        android:ems="10"
-        android:layout_below="@+id/labelName"
-        android:layout_alignParentStart="true"
-        android:id="@+id/labelLocation"
-        android:background="@android:color/transparent"
-        android:paddingBottom="10dp"
-        android:textColor="#ffffff"
-        android:layout_marginLeft="10dp"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Skill"
-        android:ems="10"
-        android:id="@+id/labelSkill"
-        android:layout_below="@+id/labelLocation"
-        android:layout_alignParentStart="true"
-        android:background="@android:color/transparent"
-        android:paddingBottom="10dp"
-        android:textColor="#ffffff"
-        android:layout_marginLeft="10dp"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Motivation"
-        android:ems="10"
-        android:layout_below="@+id/labelSkill"
-        android:layout_alignParentStart="true"
-        android:id="@+id/labelMotivation"
-        android:background="@android:color/transparent"
-        android:paddingBottom="10dp"
-        android:textColor="#ffffff"
-        android:layout_marginLeft="10dp"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Time"
-        android:ems="10"
-        android:id="@+id/labelTime"
-        android:gravity="right|center_vertical"
-        android:layout_alignBaseline="@+id/labelMotivation"
-        android:layout_alignBottom="@+id/labelMotivation"
-        android:layout_toEndOf="@+id/labelSkill"
-        android:layout_alignParentEnd="true"
-        android:background="@android:color/transparent"
-        android:paddingBottom="10dp"
-        android:textColor="#ffffff"
-        android:layout_marginRight="10dp"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Reason"
-        android:ems="10"
-        android:id="@+id/labelReason"
-        android:gravity="right|center_vertical"
-        android:background="@android:color/transparent"
-        android:paddingBottom="10dp"
-        android:layout_alignBaseline="@+id/labelSkill"
-        android:layout_alignBottom="@+id/labelSkill"
-        android:layout_alignParentEnd="true"
-        android:textColor="#ffffff"
         android:layout_marginRight="10dp"
         android:focusable="false"
         android:focusableInTouchMode="false" />
@@ -189,5 +107,148 @@
         ads:adSize="BANNER"
         ads:adUnitId="@string/banner_ad_unit_id">
     </com.google.android.gms.ads.AdView>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Location"
+        android:ems="10"
+        android:id="@+id/labelLocation"
+        android:background="@android:color/transparent"
+        android:textColor="#ffffff"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_below="@+id/labelName"
+        android:layout_toEndOf="@+id/imageView3"
+        android:layout_marginBottom="20dp"
+        android:paddingTop="5dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Motivation"
+        android:ems="10"
+        android:id="@+id/labelMotivation"
+        android:background="@android:color/transparent"
+        android:textColor="#ffffff"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_below="@+id/labelSkill"
+        android:layout_toEndOf="@+id/imageView3"
+        android:layout_marginBottom="20dp"
+        android:paddingTop="5dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Skill"
+        android:ems="10"
+        android:id="@+id/labelSkill"
+        android:background="@android:color/transparent"
+        android:textColor="#ffffff"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_below="@+id/labelLocation"
+        android:layout_toEndOf="@+id/imageView9"
+        android:layout_marginBottom="20dp"
+        android:paddingTop="5dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:srcCompat="@drawable/ic_motivation"
+        android:id="@+id/imageView3"
+        android:layout_alignTop="@+id/labelMotivation"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:srcCompat="@drawable/ic_skill"
+        android:id="@+id/imageView9"
+        android:layout_alignTop="@+id/labelSkill"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:srcCompat="@drawable/ic_location"
+        android:id="@+id/imageView8"
+        android:layout_below="@+id/labelName"
+        android:layout_alignParentStart="true" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar"
+        style="@style/Widget.AppCompat.RatingBar.Indicator"
+        android:progressTint="#FDCC03"
+        android:stepSize=".5"
+        android:numStars="5"
+        android:isIndicator="false"
+        android:layout_alignBottom="@+id/imageView8"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:srcCompat="@drawable/ic_reason"
+        android:id="@+id/imageView12"
+        android:layout_alignTop="@+id/labelReason"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:srcCompat="@drawable/ic_time"
+        android:id="@+id/imageView10"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/labelTime" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Reason"
+        android:ems="10"
+        android:id="@+id/labelReason"
+        android:gravity="right|center_vertical"
+        android:background="@android:color/transparent"
+        android:textColor="#ffffff"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:paddingTop="5dp"
+        android:layout_alignBaseline="@+id/labelSkill"
+        android:layout_alignBottom="@+id/labelSkill"
+        android:layout_alignStart="@+id/labelTime" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Time"
+        android:ems="10"
+        android:id="@+id/labelTime"
+        android:gravity="right|center_vertical"
+        android:background="@android:color/transparent"
+        android:textColor="#ffffff"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:paddingTop="5dp"
+        android:layout_alignBaseline="@+id/labelMotivation"
+        android:layout_alignBottom="@+id/labelMotivation"
+        android:layout_toStartOf="@+id/imageView10" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:srcCompat="@drawable/ic_close"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/buttonClose"
+        android:background="@android:color/transparent" />
 
 </RelativeLayout>

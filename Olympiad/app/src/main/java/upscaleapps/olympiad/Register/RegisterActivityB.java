@@ -1,5 +1,7 @@
 package upscaleapps.olympiad.Register;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -45,6 +47,8 @@ import upscaleapps.olympiad.User;
 public class RegisterActivityB extends AppCompatActivity implements View.OnClickListener {
 
     private static final int IMAGE_REQUEST = 101;
+    private static final int PHOTO_REQUEST = 202;
+
     private ImageView regIV;
     private Spinner   regReasonSP;
     private Spinner   regTimeSP;
@@ -145,8 +149,30 @@ public class RegisterActivityB extends AppCompatActivity implements View.OnClick
         regIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent().setType("image/*").setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(i, "Select Picture"), IMAGE_REQUEST);
+                AlertDialog ad = new AlertDialog.Builder(RegisterActivityB.this).create();
+                ad.setTitle("Upload Image");
+                ad.setMessage("Select Sorce");
+                ad.setButton(AlertDialog.BUTTON_NEUTRAL, "Take Photo",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent takePictureIntent =
+                                        new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                if (takePictureIntent.resolveActivity(getPackageManager()) != null)
+                                { startActivityForResult(takePictureIntent, PHOTO_REQUEST); }
+                                dialog.dismiss();
+                            }
+                        });
+                ad.setButton(AlertDialog.BUTTON_POSITIVE, "Choose Photo",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent i = new Intent().setType("image/*")
+                                        .setAction(Intent.ACTION_GET_CONTENT);
+                                startActivityForResult(Intent
+                                        .createChooser(i, "Select Picture"), IMAGE_REQUEST);
+                                dialog.dismiss();
+                            }
+                        });
+                ad.show();
             }
         });
 
@@ -206,6 +232,12 @@ public class RegisterActivityB extends AppCompatActivity implements View.OnClick
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        if (requestCode == PHOTO_REQUEST && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            regIV.setImageBitmap(imageBitmap);
         }
     }
 
@@ -269,6 +301,9 @@ public class RegisterActivityB extends AppCompatActivity implements View.OnClick
                     fb.child(user.getUid()).child("motivation").setValue(motivationText);
                     fb.child(user.getUid()).child("skill").setValue(skillText);
                     fb.child(user.getUid()).child("image").setValue(imageText);
+                    fb.child(user.getUid()).child("average").setValue(5);
+                    fb.child(user.getUid()).child("rating")
+                            .child(user.getUid()).child("rating").setValue(5);
 
                     startActivity(i);
                 }

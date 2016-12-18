@@ -67,7 +67,7 @@
             android:id="@+id/uploadHint"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:textColor="#999999" />
+            android:textColor="#ccc" />
 
         <TextView
             android:text="Age:"
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/textView2"
             android:paddingBottom="4dp"
-            android:textColor="#999"
+            android:textColor="#ccc"
             android:layout_below="@+id/regReasonET"
             android:layout_alignStart="@+id/regAgeET"
             android:layout_alignEnd="@+id/regAgeET" />
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/textView4"
             android:paddingBottom="4dp"
-            android:textColor="#999"
+            android:textColor="#ccc"
             android:layout_below="@+id/regAgeET"
             android:layout_alignStart="@+id/regAgeET"
             android:layout_alignEnd="@+id/regAgeET" />
@@ -135,7 +135,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/textView3"
             android:paddingBottom="4dp"
-            android:textColor="#999"
+            android:textColor="#ccc"
             android:layout_below="@+id/regIV"
             android:layout_alignStart="@+id/regReasonET"
             android:layout_alignEnd="@+id/regReasonET" />

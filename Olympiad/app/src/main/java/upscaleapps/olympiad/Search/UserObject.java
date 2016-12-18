@@ -7,15 +7,42 @@ public class UserObject {
     private String gender;
     private String age;
     private String location;
-
-
+    private Double average;
     private String email;
     private String image;
     private String reason;
     private String skill;
+
+    public String getMotivation() {
+        return motivation;
+    }
+
+    public void setMotivation(String motivation) {
+        this.motivation = motivation;
+    }
+
+    private String motivation;
     private Double latitude;
     private Double longitude;
     private Double distance;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    private String time;
+
+    public Double getAverage() {
+        return average;
+    }
+
+    public void setAverage(Double average) {
+        this.average = average;
+    }
 
     public void setName(String name) {
         this.name = name;

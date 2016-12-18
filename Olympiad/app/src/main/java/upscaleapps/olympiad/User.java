@@ -9,11 +9,20 @@ public class User {
     String motivation;
     String skill;
     String reason;
-    String rateing;
+
+    Double average;
     String image;
     String time;
     Double longitude;
     Double latitude;
+
+    public Double getAverage() {
+        return average;
+    }
+
+    public void setAverage(Double average) {
+        this.average = average;
+    }
 
     public Double getLatitude() {
         return latitude;
@@ -61,9 +70,7 @@ public class User {
     public String getSkill(){
         return skill;
     }
-    public String getRateing(){
-        return rateing;
-    }
+
     public String getImage(){
         return image;
     }

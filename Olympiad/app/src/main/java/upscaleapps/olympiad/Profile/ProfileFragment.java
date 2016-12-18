@@ -7,13 +7,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -24,6 +29,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -63,6 +69,9 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
     Button buttonEdit;
     Button buttonLogout;
     Button buttonInvite;
+    ImageButton buttonClose;
+    RatingBar ratingBar;
+    String selectedUID;
 
     private AdView mAdView;
     private GoogleApiClient mGoogleApiClient;
@@ -72,6 +81,7 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
 
     public static ProfileFragment newInstance() {
         ProfileFragment profileFragment = new ProfileFragment();
+        profileFragment.getArguments();
         return profileFragment;
     }
 
@@ -79,13 +89,6 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .enableAutoManage(getActivity(), this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API)
-                .addApi(AppInvite.API)
-                .build();
-
 
         AdView mAdView = (AdView) view.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -105,7 +108,32 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
         buttonEdit = (Button) view.findViewById(R.id.buttonEdit);
         buttonLogout = (Button) view.findViewById(R.id.buttonLogout);
         buttonInvite = (Button) view.findViewById(R.id.buttonInvite);
+        buttonClose = (ImageButton) view.findViewById(R.id.buttonClose);
+        ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
 
+        if (getArguments() != null) {
+            // Log.d(TAG, "onCreateView: " + getArguments());
+            getSelectedUser();
+            buttonEdit.setVisibility(View.GONE);
+            buttonLogout.setVisibility(View.GONE);
+            buttonInvite.setVisibility(View.GONE);
+        } else {
+            getCurrentUser();
+            ratingBar.setIsIndicator(true);
+            buttonClose.setVisibility(View.GONE);
+        }
+
+        // If Close Button
+        buttonClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.remove(ProfileFragment.this);
+                ft.commit();
+            }
+        });
+        ;
         // If Edit button click
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +162,51 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
             }
         });
 
+        // Rating
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener(){
+
+            @Override
+            public void onRatingChanged(final RatingBar ratingBar, float v, boolean b) {
+                // Save rating and disable rate bar
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                Log.d(TAG, "onRatingChanged: " + ratingBar.getRating());
+
+                if (selectedUID!=null) {
+                    fb.child(selectedUID).child("rating")
+                            .child(user.getUid()).child("rating").setValue(ratingBar.getRating());
+                    Toast.makeText(getActivity(), "Your Rating was Submitted.", Toast.LENGTH_SHORT).show();
+
+                    // Configure Selected Users Average and set Average
+                    fb.child(selectedUID).child("rating").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Double ratingCount = Double.valueOf(String.valueOf(dataSnapshot.getChildrenCount()));
+                            Double ratingTotal = 0.0;
+                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                if (ds.child("rating").getValue()!=null) {
+                                    Double rating = Double.valueOf(String.valueOf(ds.child("rating").getValue()));
+                                    ratingTotal+=rating;
+                                }
+                            }
+                            Double average = Double.valueOf(String.valueOf(
+                                    (Math.round(ratingTotal/ratingCount*2)/2)));
+                            fb.child(selectedUID).child("average").setValue(average);
+                            Toast.makeText(getActivity(), "New Average = " +
+                                    String.valueOf(average), Toast.LENGTH_LONG).show();
+                            ratingBar.setRating(Float.valueOf(String.valueOf(average)));
+                            ratingBar.setIsIndicator(true);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+        });
+
         // If Invite button click
         buttonInvite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,30 +215,73 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
             }
         });
 
-        // Read Data if set
+        return view;
+    }
+
+    private void getSelectedUser () {
+        // Profile View Selected
+        labelName.setText(getArguments().getString("name"));
+        labelLocation.setText(getArguments().getString("location"));
+        labelMotivation.setText(getArguments().getString("motivation"));
+        labelReason.setText(getArguments().getString("reason"));
+        labelSkill.setText(getArguments().getString("skill"));
+        labelTime.setText(getArguments().getString("time"));
+        ratingBar.setRating(Float.parseFloat(String.valueOf(getArguments().getDouble("average"))));
+        String imageURL = getArguments().getString("image");
+        new ProfileFragment.getProfileImage(imageView).execute(imageURL);
+
+        String gender = getArguments().getString("gender").substring(0, 1);
+        labelGenderAge.setText(gender + " - " + getArguments().getString("age"));
+
+        // Get Slected UID
+        fb.orderByChild("email").equalTo(getArguments().getString("email"))
+                .addChildEventListener(new ChildEventListener() {
+                       @Override
+                       public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                           selectedUID = dataSnapshot.getKey();
+                           fb.child(selectedUID).addListenerForSingleValueEvent(new ValueEventListener() {
+                               @Override
+                               public void onDataChange(DataSnapshot snapshot) {
+                                   User user = snapshot.getValue(User.class);
+
+                                   if (user != null) {
+                                       ratingBar.setRating(Float.valueOf(String.valueOf(user.getAverage())));
+                                   }
+                               }
+                               @Override
+                               public void onCancelled(DatabaseError databaseError) {}
+                           });
+                       }
+                       @Override
+                       public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+                       @Override
+                       public void onChildRemoved(DataSnapshot dataSnapshot) {}
+                       @Override
+                       public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+                       @Override
+                       public void onCancelled(DatabaseError databaseError) {}
+                   });
+    }
+    private void getCurrentUser () {
+        // Profile View Self
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         fb.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-
                 User user = snapshot.getValue(User.class);
 
                 if (user != null) {
-
                     String imageURL = user.getImage();
                     new ProfileFragment.getProfileImage(imageView).execute(imageURL);
-                    
+
                     labelName.setText(user.getName());
-
                     labelLocation.setText(user.getLocation());
-
                     labelMotivation.setText(user.getMotivation());
-
                     labelReason.setText(user.getReason());
-
                     labelSkill.setText(user.getSkill());
-
                     labelTime.setText(user.getTime());
+                    ratingBar.setRating(Float.parseFloat(String.valueOf(user.getAverage())));
 
                     String gender = user.getGender().substring(0, 1);
                     labelGenderAge.setText(gender + " - " + user.getAge());
@@ -177,10 +293,15 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
                 Log.d(TAG, databaseError.toString());
             }
         });
-        return view;
     }
 
     private void sendInvitation() {
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .enableAutoManage(getActivity(), this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API)
+                .addApi(AppInvite.API)
+                .build();
+
         Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
                 .setMessage(getString(R.string.invitation_message))
                 .setCallToActionText(getString(R.string.invitation_cta))
@@ -237,6 +358,8 @@ public class ProfileFragment extends Fragment implements GoogleApiClient.OnConne
             imageView.setImageBitmap(result);
         }
     }
+
+
 
     // Get User Info From Local Storage
     private JSONObject readData(){

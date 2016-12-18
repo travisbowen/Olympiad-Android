@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.io.InputStream;
@@ -56,6 +57,7 @@ public class CustomAdapter extends BaseAdapter{
         TextView userInfo = (TextView) view.findViewById(R.id.userInfoTV);
         TextView userLocation = (TextView) view.findViewById(R.id.userLocationTV);
         TextView userDistance = (TextView) view.findViewById(R.id.userDistanceTV);
+        RatingBar userAverage = (RatingBar) view.findViewById(R.id.userAverageRB);
 
         String imageUrl = mUserList.get(position).getImage();
         new getProfileImage(userImage).execute(imageUrl);
@@ -65,10 +67,10 @@ public class CustomAdapter extends BaseAdapter{
         userLocation.setText(mUserList.get(position).getLocation());
         String distance = String.format("%.2f", mUserList.get(position).getDistance());
         userDistance.setText(distance + " miles");
+        userAverage.setRating(Float.valueOf(String.valueOf(mUserList.get(position).getAverage())));
 
         return view;
     }
-
 
     public class getProfileImage extends AsyncTask<String,Void,Bitmap> {
 

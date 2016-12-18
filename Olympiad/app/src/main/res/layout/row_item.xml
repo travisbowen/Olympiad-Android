@@ -19,7 +19,8 @@
         android:orientation="vertical"
         android:layout_marginStart="15dp"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/userImage">
+        android:layout_toEndOf="@+id/userImage"
+        android:id="@+id/linearLayout2">
 
         <TextView
             android:id="@+id/userNameTV"
@@ -52,4 +53,20 @@
             android:textColor="@android:color/darker_gray" />
 
     </LinearLayout>
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userAverageRB"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:numStars="5"
+        android:clickable="false"
+        android:contextClickable="false"
+        android:progressTint="#FDCC03"
+        android:rating="3"
+        android:progressBackgroundTint="#000"
+        android:saveEnabled="false"
+        android:progressBackgroundTintMode="add" />
 </RelativeLayout>
